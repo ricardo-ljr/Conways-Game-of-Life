@@ -1,20 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import { Board } from "./GridStyles";
+import { produce } from "immer";
+
+const numRows = 25;
+const numCols = 25;
+
 const Grid = () => {
-  const cellSize = 20;
-  const width = 800;
-  const height = 600;
+  const [grid, setGrid] = useState(() => {
+    const rows = [];
+    for (let i = 0; i < numRows; i++) {
+      rows.push(Array.from(Array(numCols), () => 0));
+    }
+    return rows;
+  });
+
+  const width = 20;
+  const height = 20;
 
   return (
     <>
-      <h1>I'm a simple grid!</h1>
-      <Board
+      <div
         style={{
-          width: width,
-          height: height,
-          backgroundSize: `${cellSize}px ${cellSize}px`
+          display: "grid",
+          gridTemplateColumns: `repeat(${numCols}, 20px)`
         }}
-      ></Board>
+      >
+        {grid.map((rows, i) =>
+          rows.map((col, j) => (
+            <div
+              key={`${i}-${j}`}
+              onClick={() => {
+                const newGrid = produce(grid, gridCopy => {
+                  gridCopy[i][j] = grid[i][j] ? 0 : 1;
+                });
+                setGrid(newGrid);
+
+                console.log(grid);
+              }}
+              style={{
+                width: width,
+                height: height,
+                backgroundColor: grid[i][j] ? "#FFD700" : "red",
+                border: "solid 1px black"
+              }}
+            />
+          ))
+        )}
+      </div>
     </>
   );
 };
