@@ -1,12 +1,12 @@
 import React from "react";
-import { NavButton } from "./NavBarStyles";
+import { NavDiv, NavButton } from "./NavBarStyles";
 
 const NavBar = () => {
   return (
-    <div className="navigation-bar">
+    <NavDiv>
       <NavButton>Grid</NavButton>
       <NavButton>About</NavButton>
-    </div>
+    </NavDiv>
   );
 };
 
