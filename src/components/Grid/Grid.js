@@ -16,14 +16,19 @@ const operations = [
   [-1, 0]
 ];
 
+const clearGrid = () => {
+  const rows = [];
+  for (let i = 0; i < numRows; i++) {
+    rows.push(Array.from(Array(numCols), () => 0));
+  }
+  return rows;
+};
+
 const Grid = () => {
   const [grid, setGrid] = useState(() => {
-    const rows = [];
-    for (let i = 0; i < numRows; i++) {
-      rows.push(Array.from(Array(numCols), () => 0));
-    }
-    return rows;
+    return clearGrid();
   });
+
   const [start, setStart] = useState(false); // Hold state for running algorithms
 
   const startRef = useRef(start);
@@ -56,41 +61,44 @@ const Grid = () => {
         }
       });
     });
-    setTimeout(startSimulation, 500);
+    setTimeout(startSimulation, 200);
   }, []);
 
   const width = 20;
   const height = 20;
 
   return (
-    <>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: `repeat(${numCols}, 20px)`,
+        margin: "auto"
+      }}
+    >
+      {grid.map((rows, i) =>
+        rows.map((col, j) => (
+          <div
+            key={`${i}-${j}`}
+            onClick={() => {
+              const newGrid = produce(grid, gridCopy => {
+                gridCopy[i][j] = grid[i][j] ? 0 : 1;
+              });
+              setGrid(newGrid);
+            }}
+            style={{
+              width: width,
+              height: height,
+              backgroundColor: grid[i][j] ? "#FFD700" : "red",
+              border: "solid 1px black"
+            }}
+          />
+        ))
+      )}
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: `repeat(${numCols}, 20px)`
+          margin: "10px, auto"
         }}
       >
-        {grid.map((rows, i) =>
-          rows.map((col, j) => (
-            <div
-              key={`${i}-${j}`}
-              onClick={() => {
-                const newGrid = produce(grid, gridCopy => {
-                  gridCopy[i][j] = grid[i][j] ? 0 : 1;
-                });
-                setGrid(newGrid);
-
-                console.log(grid);
-              }}
-              style={{
-                width: width,
-                height: height,
-                backgroundColor: grid[i][j] ? "#FFD700" : "red",
-                border: "solid 1px black"
-              }}
-            />
-          ))
-        )}
         <button
           style={{ width: "40px" }}
           onClick={() => {
@@ -103,8 +111,11 @@ const Grid = () => {
         >
           {start ? "stop" : "start"}
         </button>
+        <button style={{ width: "40px" }} onClick={() => setGrid(clearGrid())}>
+          Clear
+        </button>
       </div>
-    </>
+    </div>
   );
 };
 
