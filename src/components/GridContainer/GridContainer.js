@@ -6,9 +6,9 @@ const GridContainer = () => {
     <div
       style={{
         display: "flex",
-        flexDirection: "row",
-        width: "70%",
-        padding: "25px",
+        flexDirection: "column",
+        width: "90%",
+        // padding: "25px",
         margin: "0 auto"
       }}
     >

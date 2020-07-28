@@ -1,0 +1,38 @@
+.grid-container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.grid-cells {
+  width: 100%;
+  justify-self: center;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+button {
+  margin: 20px;
+  font-size: 16px;
+  padding: 10px, 30px;
+  color: white;
+  background: #4c8ffb;
+  border: 1px #dadada solid;
+  padding: 5px 10px;
+  border-radius: 2px;
+  font-weight: bold;
+  font-size: 9pt;
+  outline: none;
+  box-shadow: inset 0 1px 0 #80b0fb;
+}
+
+button:hover {
+  border: 1px #c6c6c6 solid;
+  box-shadow: 1px 1px 1px #eaeaea;
+  color: #333333;
+  background: #f7f7f7;
+  cursor: pointer;
+}
