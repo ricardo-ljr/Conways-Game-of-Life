@@ -9,6 +9,7 @@ import { textAlign } from "@material-ui/system";
 
 const numRows = 25;
 const numColss = 35;
+let setTime = 200;
 
 const alive = 1;
 const dead = 0;
@@ -77,6 +78,7 @@ const Grid = () => {
 
   const sliderChange = (e, newValue) => {
     setNumCols(newValue);
+    console.log(numCols);
   };
 
   const clearGrid = () => {
@@ -96,6 +98,9 @@ const Grid = () => {
 
   const startRef = useRef(start);
   startRef.current = start;
+
+  const generationRef = useRef(generations);
+  generationRef.current = generations;
 
   const startSimulation = useCallback(() => {
     if (!startRef.current) {
@@ -124,7 +129,8 @@ const Grid = () => {
         }
       });
     });
-    setTimeout(startSimulation, 200);
+    setGenerations(++generationRef.current);
+    setTimeout(startSimulation, setTime);
   }, []);
 
   const next = () => {
@@ -163,6 +169,7 @@ const Grid = () => {
         </Typography>
         <Slider
           max={75}
+          value={numCols}
           defaultValue={numCols}
           getAriaValueText={valuetext}
           aria-labelledby="discrete-slider-custom"
@@ -170,6 +177,9 @@ const Grid = () => {
           valueLabelDisplay="auto"
           marks={marks}
           onChange={sliderChange}
+          onChangeCommitted={(e, value) => {
+            setNumCols(value);
+          }}
         />
       </div>
       <div
